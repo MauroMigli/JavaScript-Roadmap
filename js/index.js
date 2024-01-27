@@ -1,16 +1,21 @@
-let input = prompt("Insert `To Do N` where N is the integer of priority (type \"X\" if you're finished):");
-const array = [];
-while (input !== "X"){
-    input = input.split(" ");
-    let toDo = document.createElement("li");
-    toDo.innerText = input.slice(0,input.length-1).reduce(function(a,b){return `${a} ${b}`;});
-    array.push([toDo,parseInt(input[input.length-1])]);
-    input = prompt("Insert `To Do N` where N is the integer of priority (type \"X\" if you're finished):");
+let form = document.getElementById("formulario")
+let btn = document.getElementById("btnEvent");
+let list = document.getElementById("orderedList");
+let txt = document.getElementById("txtInput");
+function handleBtn(event){
+    event.preventDefault()
+    let div = document.createElement("div");
+    let closeBtn = document.createElement("button");
+    let listItem = document.createElement("li");
+    div.className = "container"
+    closeBtn.innerText = "Remove"
+    closeBtn.addEventListener("click",function(){
+        div.remove()
+    })
+    listItem.innerText = txt.value;
+    div.append(listItem);
+    div.append(closeBtn);
+    list.append(div)
+    txt.value = ""
 }
-array.sort(function(a,b) {
-    return a[1] - b[1];
-})
-const list = document.getElementById("containerList");
-for (const element of array){
-    list.append(element[0])
-}
+form.addEventListener("submit",handleBtn);
