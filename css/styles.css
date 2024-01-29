@@ -1,0 +1,15 @@
+li {
+    padding:  10px
+}
+.darkTheme{
+    background-color: black;
+    color: white;
+}
+
+.container{
+    display: flex; 
+    flex-direction: row;
+}
+#orderedList{
+    list-style-type: square;
+}

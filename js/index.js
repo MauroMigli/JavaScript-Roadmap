@@ -1,9 +1,23 @@
-let form = document.getElementById("formulario")
-let btn = document.getElementById("btnEvent");
-let list = document.getElementById("orderedList");
-let txt = document.getElementById("txtInput");
-function handleBtn(event){
-    event.preventDefault()
+const form = document.getElementById("formulario")
+const btn = document.getElementById("btnEvent");
+const list = document.getElementById("orderedList");
+const txt = document.getElementById("txtInput");
+const darkBtn = document.getElementById("dark");
+const lightBtn = document.getElementById("light")
+
+// Saving to-dos
+
+const toDosArray = JSON.parse(localStorage.getItem("toDos")) || [];
+
+toDosArray.forEach(function(todo){
+    sendToDo(todo);
+})
+
+function sendToDo(text){
+    if (text === ""){
+        alert("Enter a valid task");
+        return;
+    }
     let div = document.createElement("div");
     let closeBtn = document.createElement("button");
     let listItem = document.createElement("li");
@@ -11,11 +25,43 @@ function handleBtn(event){
     closeBtn.innerText = "Remove"
     closeBtn.addEventListener("click",function(){
         div.remove()
+        const index = toDosArray.indexOf(text)
+        if (index !== -1){
+            toDosArray.splice(index, 1);
+            localStorage.setItem("toDos", JSON.stringify(toDosArray));
+        }
     })
-    listItem.innerText = txt.value;
+    listItem.innerText = text;
     div.append(listItem);
     div.append(closeBtn);
-    list.append(div)
-    txt.value = ""
+    list.append(div);
 }
-form.addEventListener("submit",handleBtn);
+
+// Dark Mode
+
+function handleDark(event){
+    event.preventDefault();
+    document.body.className = "darkTheme";
+    localStorage.setItem("theme","dark");
+}
+
+function handleLight(event){
+    event.preventDefault();
+    document.body.className = "";
+    localStorage.setItem("theme","light")
+}
+// Event listeners
+
+darkBtn.addEventListener("change",handleDark);
+lightBtn.addEventListener("change",handleLight);
+form.addEventListener("submit",function(event){
+    event.preventDefault()
+    sendToDo(txt.value)
+    toDosArray.push(txt.value);
+    localStorage.setItem("toDos",JSON.stringify(toDosArray))
+    txt.value = ""
+});
+
+if (localStorage.getItem("theme") === "dark"){
+    document.body.className = "darkTheme";
+}
