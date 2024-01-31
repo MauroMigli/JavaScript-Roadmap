@@ -41,13 +41,13 @@ function sendToDo(text){
 
 function handleDark(event){
     event.preventDefault();
-    document.body.className = "darkTheme";
+    document.body.classList.add("darkTheme");
     localStorage.setItem("theme","dark");
 }
 
 function handleLight(event){
     event.preventDefault();
-    document.body.className = "";
+    document.body.classList.remove("darkTheme");
     localStorage.setItem("theme","light")
 }
 // Event listeners
@@ -62,6 +62,4 @@ form.addEventListener("submit",function(event){
     txt.value = ""
 });
 
-if (localStorage.getItem("theme") === "dark"){
-    document.body.className = "darkTheme";
-}
+localStorage.getItem("theme") === "dark" ? document.body.classList.add("darkTheme"): null;
